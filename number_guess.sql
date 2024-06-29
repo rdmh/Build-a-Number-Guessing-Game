@@ -49,8 +49,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.games (
     game_id integer NOT NULL,
-    guesses integer NOT NULL,
-    u_id integer
+    guesses_number integer NOT NULL,
+    user_id integer
 );
 
 
@@ -83,18 +83,18 @@ ALTER SEQUENCE public.games_game_id_seq OWNED BY public.games.game_id;
 --
 
 CREATE TABLE public.users (
-    u_id integer NOT NULL,
-    name character varying(30) NOT NULL
+    user_id integer NOT NULL,
+    username character varying(20) NOT NULL
 );
 
 
 ALTER TABLE public.users OWNER TO freecodecamp;
 
 --
--- Name: users_u_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
 --
 
-CREATE SEQUENCE public.users_u_id_seq
+CREATE SEQUENCE public.users_user_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -103,13 +103,13 @@ CREATE SEQUENCE public.users_u_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_u_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.users_user_id_seq OWNER TO freecodecamp;
 
 --
--- Name: users_u_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.users_u_id_seq OWNED BY public.users.u_id;
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 
 
 --
@@ -120,36 +120,45 @@ ALTER TABLE ONLY public.games ALTER COLUMN game_id SET DEFAULT nextval('public.g
 
 
 --
--- Name: users u_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+-- Name: users user_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.users ALTER COLUMN u_id SET DEFAULT nextval('public.users_u_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
 
 
 --
 -- Data for Name: games; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.games VALUES (52, 335, 43);
+INSERT INTO public.games VALUES (53, 554, 43);
+INSERT INTO public.games VALUES (54, 280, 44);
+INSERT INTO public.games VALUES (55, 425, 44);
+INSERT INTO public.games VALUES (56, 351, 43);
+INSERT INTO public.games VALUES (57, 643, 43);
+INSERT INTO public.games VALUES (58, 123, 43);
 
 
 --
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.users VALUES (43, 'user_1678286534089');
+INSERT INTO public.users VALUES (44, 'user_1678286534088');
 
 
 --
 -- Name: games_game_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.games_game_id_seq', 1, false);
+SELECT pg_catalog.setval('public.games_game_id_seq', 58, true);
 
 
 --
--- Name: users_u_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+-- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.users_u_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_user_id_seq', 44, true);
 
 
 --
@@ -165,15 +174,23 @@ ALTER TABLE ONLY public.games
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (u_id);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
 
 
 --
--- Name: games games_u_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- Name: games games_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.games
-    ADD CONSTRAINT games_u_id_fkey FOREIGN KEY (u_id) REFERENCES public.users(u_id);
+    ADD CONSTRAINT games_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(user_id);
 
 
 --
